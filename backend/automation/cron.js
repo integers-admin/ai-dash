@@ -8,10 +8,8 @@ import { fetchPerplexityUsage } from "../services/perplexity.service.js";
 const providerUsageAutomation = () => {
     console.log("provider usage automation started...");
 
-    // cron.schedule(
-    //     "0 17 * * *",
     cron.schedule(
-        "*/10 * * * *",
+        "0 10 * * *",
         async () => {
             console.log("provider usage cron started");
             console.log(
