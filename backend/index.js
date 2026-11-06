@@ -11,9 +11,14 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
-app.use(cors({
-  origin:"http://localhost:5173"
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://invigorating-optimism-production.up.railway.app",
+    ],
+  }),
+);
 
 app.get("/test", (req, res) => {
   try{
