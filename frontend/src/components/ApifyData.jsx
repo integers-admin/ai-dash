@@ -202,22 +202,27 @@ const ApifyData = ({ darkMode }) => {
                     className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium ${darkMode ? "bg-slate-500/10 text-slate-300" : "bg-slate-100 text-slate-600"}`}
                 >
                     <CalendarDays size={12} />
-                    {formatShortDate(value?.usageCycle?.startAt)} ➜{" "}
-                    {formatShortDate(value?.usageCycle?.endAt)}
+                    {value?.usageCycle?.startAt
+                        ? formatShortDate(value.usageCycle.startAt)
+                        : "--"}{" "}
+                    ➜{" "}
+                    {value?.usageCycle?.endAt
+                        ? formatShortDate(value.usageCycle.endAt)
+                        : "--"}
                 </span>
 
                 <span
                     className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium ${darkMode ? "bg-indigo-500/10 text-indigo-300" : "bg-indigo-50 text-indigo-700"}`}
                 >
                     <User size={12} />
-                    {value?.account?.username}
+                    {value?.account?.username ?? "--"}
                 </span>
 
                 <span
                     className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium ${darkMode ? "bg-indigo-500/10 text-indigo-300" : "bg-indigo-50 text-indigo-700"}`}
                 >
                     <User size={12} />
-                    {value?.account?.email}
+                    {value?.account?.email ?? "--"}
                 </span>
 
                 <div
@@ -228,7 +233,7 @@ const ApifyData = ({ darkMode }) => {
                     <span
                         className={`font-medium ${darkMode ? "text-[#e6e9f0]" : "text-slate-700"}`}
                     >
-                        {formatDate(value?.fetchedAt)}
+                        {value?.fetchedAt ? formatDate(value.fetchedAt) : "--"}
                     </span>
                 </div>
             </div>
@@ -261,7 +266,7 @@ const ApifyData = ({ darkMode }) => {
                                     <p
                                         className={`truncate text-xs font-semibold ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                     >
-                                        {item.title}
+                                        {item?.title ?? "--"}
                                     </p>
                                 </div>
 
@@ -269,8 +274,10 @@ const ApifyData = ({ darkMode }) => {
                                     className={`text-xl font-bold tracking-tight ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                 >
                                     {item.isCurrency
-                                        ? `$${item?.data?.used.toFixed(2)}`
-                                        : formatNumber(item?.data?.used)}
+                                        ? `$${item?.data?.used?.toFixed(2) ?? "--"}`
+                                        : item?.data?.used != null
+                                          ? formatNumber(item.data.used)
+                                          : "--"}
                                 </p>
                                 <p
                                     className={`mt-0.5 text-[11px] ${darkMode ? "text-[#a0a8b8]" : "text-slate-500"}`}
@@ -295,7 +302,7 @@ const ApifyData = ({ darkMode }) => {
                                                 : "text-slate-500"
                                         }
                                     >
-                                        {usedPct}% used
+                                        {usedPct ?? 0}% used
                                     </span>
                                     <span
                                         className={
@@ -304,7 +311,8 @@ const ApifyData = ({ darkMode }) => {
                                                 : "text-slate-500"
                                         }
                                     >
-                                        {item?.data?.remainingPercent}% left
+                                        {item?.data?.remainingPercent ?? 0}%
+                                        left
                                     </span>
                                 </div>
 
@@ -327,10 +335,12 @@ const ApifyData = ({ darkMode }) => {
                                             className={`font-medium ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                         >
                                             {item.isCurrency
-                                                ? `$${item?.data?.limit?.toFixed(2)}`
-                                                : formatNumber(
-                                                      item?.data?.limit,
-                                                  )}
+                                                ? `$${item?.data?.limit?.toFixed(2) ?? "--"}`
+                                                : item?.data?.limit != null
+                                                  ? formatNumber(
+                                                        item.data.limit,
+                                                    )
+                                                  : "--"}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
@@ -347,14 +357,16 @@ const ApifyData = ({ darkMode }) => {
                                             className={`font-medium ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                         >
                                             {item.isCurrency
-                                                ? `$${item?.data?.remaining?.toFixed(2)}`
-                                                : formatNumber(
-                                                      Number(
-                                                          item?.data?.remaining?.toFixed(
-                                                              6,
-                                                          ),
-                                                      ),
-                                                  )}
+                                                ? `$${item?.data?.remaining?.toFixed(2) ?? "--"}`
+                                                : item?.data?.remaining != null
+                                                  ? formatNumber(
+                                                        Number(
+                                                            item.data.remaining.toFixed(
+                                                                6,
+                                                            ),
+                                                        ),
+                                                    )
+                                                  : "--"}
                                         </span>
                                     </div>
                                 </div>
@@ -511,7 +523,7 @@ const ApifyData = ({ darkMode }) => {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {serviceTable.map((s) => {
+                        {serviceTable?.map((s) => {
                             const pct =
                                 (s.amount /
                                     value?.monthlyUsageDetails
@@ -541,27 +553,32 @@ const ApifyData = ({ darkMode }) => {
                                         <span
                                             className={`text-xs font-semibold ${darkMode ? "text-[#a0a8b8]" : "text-slate-500"}`}
                                         >
-                                            {pct.toFixed(2)}%
+                                            {pct != null ? pct.toFixed(2) : "0"}
+                                            %
                                         </span>
                                     </div>
 
                                     <p
                                         className={`text-sm font-semibold truncate ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                     >
-                                        {s.name}
+                                        {s.name ?? "--"}
                                     </p>
                                     <p
                                         className={`text-xs mt-0.5 ${darkMode ? "text-[#a0a8b8]" : "text-slate-500"}`}
                                     >
                                         Qty:{" "}
-                                        {s.quantity < 1
-                                            ? s.quantity.toFixed(6)
-                                            : formatNumber(s.quantity)}
+                                        {s.quantity != null
+                                            ? s.quantity < 1
+                                                ? s.quantity.toFixed(6)
+                                                : formatNumber(s.quantity)
+                                            : "--"}
                                     </p>
                                     <p
                                         className={`text-lg font-bold mt-2 ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                     >
-                                        {formatUSD(s.amount)}
+                                        {s.amount != null
+                                            ? formatUSD(s.amount)
+                                            : "--"}
                                     </p>
 
                                     <div
@@ -626,27 +643,32 @@ const ApifyData = ({ darkMode }) => {
                                             <td
                                                 className={`px-4 py-3 font-medium ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                             >
-                                                {actor.name}
+                                                {actor.name ?? "--"}
                                             </td>
                                             <td
                                                 className={`px-4 py-3 ${darkMode ? "text-[#a0a8b8]" : "text-slate-500"}`}
                                             >
-                                                {actor.username}
+                                                {actor.username ?? "--"}
                                             </td>
                                             <td
                                                 className={`px-4 py-3 ${darkMode ? "text-[#a0a8b8]" : "text-slate-500"}`}
                                             >
-                                                {new Date(
-                                                    actor.createdAt,
-                                                ).toLocaleDateString("en-IN", {
-                                                    day: "2-digit",
-                                                    month: "short",
-                                                    year: "numeric",
-                                                })}
+                                                {actor?.createdAt
+                                                    ? new Date(
+                                                          actor.createdAt,
+                                                      ).toLocaleDateString(
+                                                          "en-IN",
+                                                          {
+                                                              day: "2-digit",
+                                                              month: "short",
+                                                              year: "numeric",
+                                                          },
+                                                      )
+                                                    : "--"}
                                             </td>
                                             <td className="px-4 py-3 text-right">
                                                 <a
-                                                    href={actor.url}
+                                                    href={actor?.url ?? "#"}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className={`inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors ${darkMode ? "bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20" : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"}`}

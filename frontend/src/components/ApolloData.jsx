@@ -225,7 +225,7 @@ const ApolloData = ({ darkMode }) => {
                         darkMode ? "text-[#e6e9f0]" : "text-slate-700"
                     }`}
                 >
-                    {value?.provider}
+                    {value?.provider ?? "--"}
                 </span>
 
                 <span
@@ -240,8 +240,13 @@ const ApolloData = ({ darkMode }) => {
                     }`}
                 >
                     <CalendarDays size={12} />
-                    {formatShortDate(value?.billingCycle?.startDate)} ➜{" "}
-                    {formatShortDate(value?.billingCycle?.endDate)}
+                    {value?.billingCycle?.startDate
+                        ? formatShortDate(value.billingCycle.startDate)
+                        : "--"}{" "}
+                    ➜{" "}
+                    {value?.billingCycle?.endDate
+                        ? formatShortDate(value.billingCycle.endDate)
+                        : "--"}
                     {/* <span className="font-semibold">({daysLeft}d left)</span> */}
                 </span>
 
@@ -257,7 +262,7 @@ const ApolloData = ({ darkMode }) => {
                             darkMode ? "text-[#e6e9f0]" : "text-slate-700"
                         }`}
                     >
-                        {formatDate(value?.fetchedAt)}
+                        {value?.fetchedAt ? formatDate(value.fetchedAt) : "--"}
                     </span>
                 </div>
             </div>
@@ -289,7 +294,7 @@ const ApolloData = ({ darkMode }) => {
                                             : "text-slate-500"
                                     }`}
                                 >
-                                    {kpi.label}
+                                    {kpi?.label ?? "--"}
                                 </p>
                                 <p
                                     className={`mt-1 text-xl font-semibold tracking-tight ${
@@ -298,7 +303,7 @@ const ApolloData = ({ darkMode }) => {
                                             : "text-slate-900"
                                     }`}
                                 >
-                                    {kpi.value}
+                                    {kpi?.value ?? "--"}
                                 </p>
                                 <p
                                     className={`mt-0.5 text-xs ${
@@ -307,7 +312,7 @@ const ApolloData = ({ darkMode }) => {
                                             : "text-slate-400"
                                     }`}
                                 >
-                                    {kpi.sub}
+                                    {kpi?.sub ?? "--"}
                                 </p>
                             </div>
                         );
@@ -374,7 +379,7 @@ const ApolloData = ({ darkMode }) => {
                                                     : "text-slate-900"
                                             }`}
                                         >
-                                            {pool.name}
+                                            {pool?.name ?? "--"}
                                         </p>
                                     </div>
 
@@ -385,7 +390,7 @@ const ApolloData = ({ darkMode }) => {
                                                 : "text-slate-900"
                                         }`}
                                     >
-                                        {formatNumber(credit?.consumed)}
+                                        {credit?.consumed != null ? formatNumber(credit.consumed) : "--"}
                                         <span
                                             className={`ml-1 text-sm font-normal ${
                                                 darkMode
@@ -393,7 +398,7 @@ const ApolloData = ({ darkMode }) => {
                                                     : "text-slate-400"
                                             }`}
                                         >
-                                            / {formatNumber(credit?.limit)}
+                                            / {credit?.limit != null ? formatNumber(credit.limit) : "--"}
                                         </span>
                                     </p>
 
@@ -419,7 +424,7 @@ const ApolloData = ({ darkMode }) => {
                                     >
                                         <span>used</span>
                                         <span className="font-medium">
-                                            {usedPct.toFixed(0)}%
+                                            {usedPct != null ? usedPct.toFixed(0) : "0"}%
                                         </span>
                                     </div>
                                 </div>
@@ -519,22 +524,22 @@ const ApolloData = ({ darkMode }) => {
                                                 <td
                                                     className={`px-4 py-3 font-medium ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                                 >
-                                                    {r.name}
+                                                    {r?.name ?? "--"}
                                                 </td>
                                                 <td
                                                     className={`px-4 py-3 ${darkMode ? "text-[#a0a8b8]" : "text-slate-600"}`}
                                                 >
-                                                    {r.day}
+                                                    {r?.day ?? "--"}
                                                 </td>
                                                 <td
                                                     className={`px-4 py-3 ${darkMode ? "text-[#a0a8b8]" : "text-slate-600"}`}
                                                 >
-                                                    {r.hour}
+                                                    {r?.hour ?? "--"}
                                                 </td>
                                                 <td
                                                     className={`px-4 py-3 ${darkMode ? "text-[#a0a8b8]" : "text-slate-600"}`}
                                                 >
-                                                    {r.minute}
+                                                    {r?.minute ?? "--"}
                                                 </td>
                                             </tr>
                                         ))

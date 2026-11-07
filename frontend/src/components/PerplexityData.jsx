@@ -188,16 +188,16 @@ const PerplexityData = ({ darkMode }) => {
                     }`}
                 >
                     <span className="relative flex h-2 w-2">
-                        {value.success && (
+                        {value?.success && (
                             <span className="absolute -inset-[1px] animate-ping rounded-full bg-emerald-400 opacity-60" />
                         )}
                         <span
                             className={`relative inline-flex h-2 w-2 rounded-full ${
-                                value.success ? "bg-emerald-500" : "bg-rose-500"
+                                value?.success ? "bg-emerald-500" : "bg-rose-500"
                             }`}
                         />
                     </span>
-                    {value.success ? "Connected" : "Failed"}
+                    {value?.success ? "Connected" : "Failed"}
                 </span>
 
                 <span
@@ -205,7 +205,7 @@ const PerplexityData = ({ darkMode }) => {
                         darkMode ? "text-[#e6e9f0]" : "text-slate-700"
                     }`}
                 >
-                    {value.provider}
+                    {value?.provider ?? "--"}
                 </span>
                 <span
                     className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium ${
@@ -215,8 +215,13 @@ const PerplexityData = ({ darkMode }) => {
                     }`}
                 >
                     <CalendarDays size={12} />
-                    {formatShortDate(value.period.startDate)} ➜{" "}
-                    {formatShortDate(value.period.endDate)}
+                    {value?.period?.startDate
+                        ? formatShortDate(value.period.startDate)
+                        : "--"}{" "}
+                    ➜{" "}
+                    {value?.period?.endDate
+                        ? formatShortDate(value.period.endDate)
+                        : "--"}
                 </span>
 
                 <div
@@ -231,14 +236,14 @@ const PerplexityData = ({ darkMode }) => {
                             darkMode ? "text-[#e6e9f0]" : "text-slate-700"
                         }`}
                     >
-                        {formatDate(value.fetchedAt)}
+                        {value?.fetchedAt ? formatDate(value.fetchedAt) : "--"}
                     </span>
                 </div>
             </div>
 
             <div className="px-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-                    {kpis.map((kpi) => {
+                    {kpis?.map((kpi) => {
                         const Icon = kpi.icon;
                         return (
                             <div
@@ -278,7 +283,7 @@ const PerplexityData = ({ darkMode }) => {
                                             : "text-slate-500"
                                     }`}
                                 >
-                                    {kpi.label}
+                                    {kpi?.label ?? "--"}
                                 </p>
                                 <p
                                     className={`mt-1 text-xl font-semibold tracking-tight ${
@@ -287,7 +292,7 @@ const PerplexityData = ({ darkMode }) => {
                                             : "text-slate-900"
                                     }`}
                                 >
-                                    {kpi.value}
+                                    {kpi?.value ?? "--"}
                                 </p>
                             </div>
                         );
@@ -410,7 +415,7 @@ const PerplexityData = ({ darkMode }) => {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                        {modelCards.map((model) => {
+                        {modelCards?.map((model) => {
                             const usage = value?.modelUsage?.[model.key];
                             const Icon = model.icon;
                             const totalTokens =
@@ -439,7 +444,7 @@ const PerplexityData = ({ darkMode }) => {
                                                         : "text-slate-900"
                                                 }`}
                                             >
-                                                {model?.name}
+                                                {model?.name ?? "--"}
                                             </p>
                                             <p
                                                 className={`truncate text-[11px] ${
@@ -448,7 +453,7 @@ const PerplexityData = ({ darkMode }) => {
                                                         : "text-slate-400"
                                                 }`}
                                             >
-                                                {model.key}
+                                                {model?.key ?? "--"}
                                             </p>
                                         </div>
                                     </div>
@@ -460,7 +465,7 @@ const PerplexityData = ({ darkMode }) => {
                                                 : "text-slate-900"
                                         }`}
                                     >
-                                        {formatUSD4(usage?.cost)}
+                                        {usage?.cost != null ? formatUSD4(usage.cost) : "--"}
                                     </p>
                                     <p
                                         className={`text-xs ${
@@ -521,14 +526,14 @@ const PerplexityData = ({ darkMode }) => {
 const Row = ({ label, value, darkMode, bold }) => (
     <div className="flex items-center justify-between">
         <span className={darkMode ? "text-[#a0a8b8]" : "text-slate-500"}>
-            {label}
+            {label ?? "--"}
         </span>
         <span
             className={`${bold ? "font-semibold" : "font-medium"} ${
                 darkMode ? "text-[#e6e9f0]" : "text-slate-900"
             }`}
         >
-            {value}
+            {value ?? "--"}
         </span>
     </div>
 );

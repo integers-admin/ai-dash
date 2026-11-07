@@ -98,15 +98,15 @@ const OpenAIData = ({ darkMode }) => {
     }));
 
     const modelCards = Object.entries(value?.modelUsage || {})
-    .map(([key, usage]) => ({
-        key,
-        name: cleanModelName(key),
-        cost: usage?.costUSD ?? 0,
-        input: usage?.inputTokens ?? 0,
-        output: usage?.outputTokens ?? 0,
-        total: (usage?.inputTokens ?? 0) + (usage?.outputTokens ?? 0),
-    }))
-    .sort((a, b) => b.cost - a.cost);
+        .map(([key, usage]) => ({
+            key,
+            name: cleanModelName(key),
+            cost: usage?.costUSD ?? 0,
+            input: usage?.inputTokens ?? 0,
+            output: usage?.outputTokens ?? 0,
+            total: (usage?.inputTokens ?? 0) + (usage?.outputTokens ?? 0),
+        }))
+        .sort((a, b) => b.cost - a.cost);
 
     const openAIData = async () => {
         try {
@@ -186,7 +186,7 @@ const OpenAIData = ({ darkMode }) => {
                         darkMode ? "text-[#e6e9f0]" : "text-slate-700"
                     }`}
                 >
-                    {value?.provider}
+                    {value?.provider ?? "--"}
                 </span>
                 <span
                     className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium ${
@@ -196,8 +196,13 @@ const OpenAIData = ({ darkMode }) => {
                     }`}
                 >
                     <CalendarDays size={12} />
-                    {formatShortDate(value.period.start)} ➜{" "}
-                    {formatShortDate(value.period.end)}
+                    {value?.period?.start
+                        ? formatShortDate(value.period.start)
+                        : "--"}{" "}
+                    ➜{" "}
+                    {value?.period?.end
+                        ? formatShortDate(value.period.end)
+                        : "--"}
                 </span>
 
                 <div
@@ -212,14 +217,14 @@ const OpenAIData = ({ darkMode }) => {
                             darkMode ? "text-[#e6e9f0]" : "text-slate-700"
                         }`}
                     >
-                        {formatDate(value.fetchedAt)}
+                        {value?.fetchedAt ? formatDate(value.fetchedAt) : "--"}
                     </span>
                 </div>
             </div>
 
             <div className="px-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {kpis.map((kpi) => {
+                    {kpis?.map((kpi) => {
                         const Icon = kpi.icon;
                         return (
                             <div
@@ -244,7 +249,7 @@ const OpenAIData = ({ darkMode }) => {
                                             : "text-slate-500"
                                     }`}
                                 >
-                                    {kpi.label}
+                                    {kpi?.label ?? "--"}
                                 </p>
                                 <p
                                     className={`mt-1 text-xl font-semibold tracking-tight ${
@@ -253,7 +258,7 @@ const OpenAIData = ({ darkMode }) => {
                                             : "text-slate-900"
                                     }`}
                                 >
-                                    {kpi.value}
+                                    {kpi?.value ?? "--"}
                                 </p>
                                 {/* <p
                                 className={`mt-0.5 text-xs ${
@@ -389,7 +394,7 @@ const OpenAIData = ({ darkMode }) => {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-6">
-                        {modelCards.map((model) => (
+                        {modelCards?.map((model) => (
                             <div
                                 key={model.key}
                                 className={`relative rounded-xl border p-4 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-lg ${
@@ -416,7 +421,7 @@ const OpenAIData = ({ darkMode }) => {
                                                     : "text-slate-900"
                                             }`}
                                         >
-                                            {model.name}
+                                            {model?.name ?? "--"}
                                         </p>
                                         <p
                                             className={`truncate text-[11px] ${
@@ -425,7 +430,7 @@ const OpenAIData = ({ darkMode }) => {
                                                     : "text-slate-400"
                                             }`}
                                         >
-                                            {model.key}
+                                            {model?.key ?? "--"}
                                         </p>
                                     </div>
                                 </div>
@@ -436,7 +441,7 @@ const OpenAIData = ({ darkMode }) => {
                                             : "text-slate-900"
                                     }`}
                                 >
-                                    {formatUSD(model.cost)}
+                                    {model?.cost != null ? formatUSD(model.cost) : "--"}
                                 </p>
                                 <p
                                     className={`text-xs ${
@@ -468,7 +473,7 @@ const OpenAIData = ({ darkMode }) => {
                                         <span
                                             className={`font-medium ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                         >
-                                            {formatNumber(model.input)}
+                                            {model?.input != null ? formatNumber(model.input) : "--"}
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between">
@@ -484,7 +489,7 @@ const OpenAIData = ({ darkMode }) => {
                                         <span
                                             className={`font-medium ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                         >
-                                            {formatNumber(model.output)}
+                                            {model?.output != null ? formatNumber(model.output) : "--"}
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between">
@@ -500,7 +505,7 @@ const OpenAIData = ({ darkMode }) => {
                                         <span
                                             className={`font-semibold ${darkMode ? "text-[#e6e9f0]" : "text-slate-900"}`}
                                         >
-                                            {formatNumber(model.total)}
+                                            {model?.total != null ? formatNumber(model.total) : "--"}
                                         </span>
                                     </div>
                                 </div>
