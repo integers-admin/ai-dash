@@ -178,7 +178,7 @@ const PerplexityData = ({ darkMode }) => {
             >
                 <span
                     className={`inline-flex items-center gap-2 rounded-md px-2.5 py-1 text-xs font-medium ${
-                        value.success
+                        value?.success
                             ? darkMode
                                 ? "bg-emerald-500/10 text-emerald-400"
                                 : "bg-emerald-50 text-emerald-700"
